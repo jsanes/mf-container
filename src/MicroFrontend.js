@@ -25,6 +25,12 @@ function MicroFrontend({ name, host, ...rest }) {
           renderMicroFrontend();
         };
         document.head.appendChild(script);
+
+        const styles = document.createElement('link');
+        styles.rel = 'stylesheet';
+        styles.href = `${host}${manifest.files['main.css']}`;
+
+        document.head.appendChild(styles);
       });
 
     return () => {
