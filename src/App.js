@@ -29,6 +29,18 @@ const Store = React.forwardRef(({ history, ...rest }, ref) => {
   );
 });
 
+const ShoppingCart = React.forwardRef(({ history, ...rest }, ref) => {
+  return (
+    <MicroFrontend
+      {...rest}
+      history={history}
+      host={shoppingCartHost}
+      name="ShoppingCart"
+      ref={ref}
+    />
+  );
+});
+
 function ProductDescription({ history, ...rest }) {
   return (
     <div>
@@ -51,18 +63,6 @@ function ProductDescription({ history, ...rest }) {
     </div>
   );
 }
-
-const ShoppingCart = React.forwardRef(({ history, ...rest }, ref) => {
-  return (
-    <MicroFrontend
-      {...rest}
-      history={history}
-      host={shoppingCartHost}
-      name="ShoppingCart"
-      ref={ref}
-    />
-  );
-});
 
 function Home({ history }) {
   const storeRef = useRef(null);
