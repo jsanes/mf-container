@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
-function MicroFrontend({ name, host, ...rest }) {
+const MicroFrontend = React.forwardRef(({ name, host, ...rest }, ref) => {
   useEffect(() => {
     const scriptId = `micro-frontend-script-${name}`;
 
     const renderMicroFrontend = () => {
-      window[`render${name}`](`${name}-container`, rest);
+      window[`render${name}`](`${name}-container`, rest, ref);
     };
 
     if (document.getElementById(scriptId)) {
@@ -39,7 +39,7 @@ function MicroFrontend({ name, host, ...rest }) {
   });
 
   return <main id={`${name}-container`} />;
-}
+});
 
 MicroFrontend.defaultProps = {
   document,

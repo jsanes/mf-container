@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MicroFrontend from './MicroFrontend';
 
@@ -17,11 +17,17 @@ function Header() {
   );
 }
 
-function Store({ history, ...rest }) {
+const Store = React.forwardRef(({ history, ...rest }, ref) => {
   return (
-    <MicroFrontend {...rest} history={history} host={storeHost} name="Store" />
+    <MicroFrontend
+      {...rest}
+      history={history}
+      host={storeHost}
+      name="Store"
+      ref={ref}
+    />
   );
-}
+});
 
 function ProductDescription({ history, ...rest }) {
   return (
@@ -46,38 +52,32 @@ function ProductDescription({ history, ...rest }) {
   );
 }
 
-function ShoppingCart({ history, ...rest }) {
+const ShoppingCart = React.forwardRef(({ history, ...rest }, ref) => {
   return (
     <MicroFrontend
       {...rest}
       history={history}
       host={shoppingCartHost}
       name="ShoppingCart"
+      ref={ref}
     />
   );
-}
-
-function useGlobalState() {
-  const [newItem, setNewItem] = useState({});
-
-  return [newItem, setNewItem];
-}
+});
 
 function Home({ history }) {
-  const [newItem, setNewItem] = useGlobalState();
-  function handleAddItem(item) {
-    setNewItem(item);
-  }
+  const storeRef = useRef(null);
+  const shoppingCartRef = useRef(null);
+
   return (
     <div>
       <Header />
       <div className="home">
         <div className="content">
           <div className="store-container">
-            <Store addItem={handleAddItem} />
+            <Store ref={storeRef} shoppingCartRef={shoppingCartRef} />
           </div>
           <div className="shopping-cart-container">
-            <ShoppingCart newItem={newItem} />
+            <ShoppingCart ref={shoppingCartRef} storeRef={storeRef} />
           </div>
         </div>
       </div>
